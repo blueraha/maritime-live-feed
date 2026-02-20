@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0a1628">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="Maritime Live Feed — Real-time maritime event sharing platform">
@@ -130,6 +131,10 @@
       <textarea class="form-input" id="eventDesc" placeholder="What happened? Add context..."></textarea>
       <div class="form-label">Location</div>
       <input class="form-input" id="eventLoc" placeholder="e.g. Singapore Strait, Malacca">
+
+      <div class="form-label">Image (optional)</div>
+      <input type="file" id="eventImage" accept="image/*" class="form-input">
+      
       <button class="submit-btn" id="submitEvent" disabled>Create Event</button>
     </div>
   </div>

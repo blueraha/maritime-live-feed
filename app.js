@@ -1,6 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, doc, setDoc, getDoc, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL }
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const app = initializeApp({
   apiKey: "AIzaSyBuGoE5qGFuuXH99nNy4Y4f3waY2ZS4Nbk",
@@ -12,6 +14,7 @@ const app = initializeApp({
 });
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // === STATE ===
 let currentUser = null, userProfile = null, selectedEventType = null;
@@ -96,7 +99,7 @@ document.querySelectorAll('.role-option').forEach(btn => {
 $('saveProfile').addEventListener('click', async () => {
   if (!selectedRole || !currentUser) return;
   const nick = $('nicknameInput').value.trim() || selectedRole + '_' + Math.floor(Math.random() * 1000);
-  userProfile = { role: selectedRole, nickname: nick, createdAt: new Date().toISOString() };
+  userProfile = { role: selectedRole, nickname: nick, createdAt: serverTimestamp()};
   await setDoc(doc(db, 'users', currentUser.uid), userProfile);
   setupAppUI();
   showScreen('app');
@@ -155,7 +158,13 @@ function renderFeed() {
           ${isNew ? '<span class="card-new">NEW</span>' : ''}
         </div>
         <div class="card-title">${esc(e.title)}</div>
-        <div class="card-preview"><span class="role-tag">${esc(e.creatorRole || '')}:</span> ${esc(e.description || 'No description')}</div>
+
+${e.imageUrl ? `<img src="${e.imageUrl}" class="card-image">` : ''}
+
+<div class="card-preview">
+  <span class="role-tag">${esc(e.creatorRole || '')}:</span>
+  ${esc(e.description || 'No description')}
+</div>
         <div class="card-footer">
           <div class="card-footer-left">
             <span class="card-stat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>${e.insightCount || 0}</span>
@@ -283,6 +292,15 @@ $('submitEvent').addEventListener('click', async () => {
   btn.textContent = 'Creating...';
 
   try {
+    let uploadedImageUrl = '';
+
+    const file = $('eventImage').files[0];
+    if (file) {
+      const storageRef = ref(storage, 'events/' + Date.now() + '_' + file.name);
+      await uploadBytes(storageRef, file);
+      uploadedImageUrl = await getDownloadURL(storageRef);
+    }
+
     await addDoc(collection(db, 'events'), {
       creatorId: currentUser.uid,
       creatorRole: userProfile.role,
@@ -291,6 +309,7 @@ $('submitEvent').addEventListener('click', async () => {
       title,
       description: desc || '',
       location: loc || '',
+      imageUrl: uploadedImageUrl,   // ← NEW
       insightCount: 0,
       createdAt: serverTimestamp()
     });
@@ -364,3 +383,18 @@ function toast(msg) {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
+const viewer = $('imageViewer');
+const viewerImg = $('viewerImage');
+
+// 이미지 클릭 시 확대
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('card-image')) {
+    viewerImg.src = e.target.src;
+    viewer.classList.add('show');
+  }
+});
+
+// 배경 누르면 닫기
+viewer.addEventListener('click', () => {
+  viewer.classList.remove('show');
+});
