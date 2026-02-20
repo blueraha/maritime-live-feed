@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1628">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Maritime Live Feed — Real-time maritime event sharing platform">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Maritime Live Feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen"><div class="spinner"></div><div class="loading-text">Loading...</div></div>
+
+<!-- AUTH -->
+<div class="auth-screen" id="authScreen" style="display:none">
+  <div class="auth-logo">🚢</div>
+  <div class="auth-title">Maritime Live Feed</div>
+  <div class="auth-sub">Real decisions from real roles.<br>Join the global maritime community.</div>
+  <button class="auth-btn google" id="googleSignIn">
+    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+    Continue with Google
+  </button>
+  <div class="auth-divider">or</div>
+  <div id="emailAuth">
+    <input class="auth-input" id="emailInput" type="email" placeholder="Email address">
+    <input class="auth-input" id="passInput" type="password" placeholder="Password">
+    <div class="auth-error" id="authError"></div>
+    <button class="auth-btn" id="emailSignIn" style="border-color:var(--accent)">Sign In</button>
+    <button class="auth-link" id="toggleAuth">Don't have an account? Sign Up</button>
+  </div>
+</div>
+
+<!-- ROLE SELECT -->
+<div class="role-screen" id="roleScreen">
+  <div class="auth-logo">🚢</div>
+  <div class="role-title">Select Your Role</div>
+  <div class="role-sub">This will be shown with your decisions.</div>
+  <div class="role-grid">
+    <button class="role-option" data-role="Mate"><div class="role-icon">⚓</div><div class="role-info"><div>Mate</div><div class="role-desc">Deck Officer / OOW</div></div></button>
+    <button class="role-option" data-role="Master"><div class="role-icon">🧭</div><div class="role-info"><div>Master</div><div class="role-desc">Captain / Ship Master</div></div></button>
+    <button class="role-option" data-role="Engineer"><div class="role-icon">⚙️</div><div class="role-info"><div>Engineer</div><div class="role-desc">Engine Department</div></div></button>
+  </div>
+  <div class="nickname-section">
+    <div class="form-label">Nickname (optional)</div>
+    <input class="form-input" id="nicknameInput" placeholder="e.g. OOW_Singapore" style="margin-bottom:12px">
+    <button class="submit-btn" id="saveProfile" disabled>Get Started</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app-shell" id="appShell">
+  <header class="header">
+    <div class="header-top">
+      <div class="logo"><div class="logo-icon">🚢</div><div class="logo-text">Maritime <span>Live Feed</span></div></div>
+      <div style="position:relative">
+        <div class="user-avatar" id="avatarBtn"></div>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-info">
+            <div class="profile-name" id="profileName"></div>
+            <div class="profile-role" id="profileRole"></div>
+            <div class="profile-email" id="profileEmail"></div>
+          </div>
+          <button class="profile-action danger" id="signOutBtn">Sign Out</button>
+        </div>
+      </div>
+    </div>
+    <div class="summary-bar"><div class="pulse"></div><span id="summaryText">Loading...</span></div>
+  </header>
+
+  <div class="filter-section">
+    <div class="filter-label">Role</div>
+    <div class="filter-row" id="roleFilter">
+      <button class="filter-chip active" data-role="all">All</button>
+      <button class="filter-chip" data-role="mate">Mate</button>
+      <button class="filter-chip" data-role="master">Master</button>
+      <button class="filter-chip" data-role="engineer">Engineer</button>
+    </div>
+    <div class="filter-label" style="margin-top:4px">Type</div>
+    <div class="filter-row" id="typeFilter">
+      <button class="filter-chip active" data-type="all">All</button>
+      <button class="filter-chip" data-type="near-miss">Near Miss</button>
+      <button class="filter-chip" data-type="traffic">Traffic</button>
+      <button class="filter-chip" data-type="weather">Weather</button>
+      <button class="filter-chip" data-type="equipment">Equipment</button>
+      <button class="filter-chip" data-type="navigation">Navigation</button>
+      <button class="filter-chip" data-type="other">Other</button>
+    </div>
+  </div>
+
+  <main class="feed" id="feed"></main>
+
+  <button class="fab" id="createBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Event
+  </button>
+
+  <nav class="bottom-nav">
+    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg>Feed</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>AI Mate</div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</div>
+  </nav>
+</div>
+
+<!-- CREATE EVENT MODAL -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-header"><div class="modal-title">Create Event</div><button class="modal-close" id="closeModal">✕</button></div>
+    <div class="modal-body">
+      <div class="form-label">Event Type <span class="required">*</span></div>
+      <div class="type-grid" id="typeGrid">
+        <button class="type-option" data-type="near-miss"><span class="type-dot" style="background:var(--near-miss)"></span>Near Miss</button>
+        <button class="type-option" data-type="traffic"><span class="type-dot" style="background:var(--traffic)"></span>Traffic</button>
+        <button class="type-option" data-type="weather"><span class="type-dot" style="background:var(--weather)"></span>Weather</button>
+        <button class="type-option" data-type="equipment"><span class="type-dot" style="background:var(--equipment)"></span>Equipment</button>
+        <button class="type-option" data-type="navigation"><span class="type-dot" style="background:var(--navigation)"></span>Navigation</button>
+        <button class="type-option" data-type="other"><span class="type-dot" style="background:var(--other)"></span>Other</button>
+      </div>
+      <div class="form-label">Title <span class="required">*</span></div>
+      <input class="form-input" id="eventTitle" placeholder="e.g. Close quarter situation in Singapore Strait" maxlength="120">
+      <div class="form-label">Description</div>
+      <textarea class="form-input" id="eventDesc" placeholder="What happened? Add context..."></textarea>
+      <div class="form-label">Location</div>
+      <input class="form-input" id="eventLoc" placeholder="e.g. Singapore Strait, Malacca">
+      <button class="submit-btn" id="submitEvent" disabled>Create Event</button>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT DETAIL -->
+<div class="detail-overlay" id="detailView">
+  <div class="detail-header">
+    <button class="back-btn" id="backBtn">←</button>
+    <div class="detail-title-area">
+      <div class="detail-type-badge" id="detailType"></div>
+      <div class="detail-title" id="detailTitle"></div>
+    </div>
+  </div>
+  <div class="detail-body" id="detailBody"></div>
+  <div class="detail-input-area">
+    <div class="detail-input-row">
+      <input type="text" id="insightInput" placeholder="Share your decision...">
+      <button class="detail-send-btn" id="sendInsight">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
