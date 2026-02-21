@@ -4,7 +4,7 @@ import { getFirestore, collection, doc, setDoc, getDoc, getDocs, addDoc, query, 
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const app = initializeApp({
-  apiKey: "AIzaSyBuGoE5qGFuuXH59nNy4Y4f3waY2ZS4Nbk",
+  apiKey: "AIzaSyBuGoE5qGFuuXH99nNy4Y4f3waY2ZS4Nbk",
   authDomain: "maritime-live-feed.firebaseapp.com",
   projectId: "maritime-live-feed",
   storageBucket: "maritime-live-feed.firebasestorage.app",
