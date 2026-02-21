@@ -7,187 +7,166 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="description" content="Maritime Live Feed — Real-time maritime event sharing platform">
+<meta name="description" content="Maritime Live Feed — Real-time maritime community">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>Maritime Live Feed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- LOADING -->
-<div class="loading-screen" id="loadingScreen">
-  <div class="spinner"></div>
-  <div class="loading-text">Loading...</div>
-</div>
+<div class="screen loading-screen" id="loadingScreen"><div class="spinner"></div></div>
 
 <!-- AUTH -->
-<div class="auth-screen" id="authScreen" style="display:none">
-  <div class="auth-logo">
-    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="64" height="64" rx="16" fill="#0a66c2"/>
-      <path d="M12 38c4-4 8-2 12-4s6-6 10-6 6 4 10 6 8 0 12 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M12 44c4-3 8-1 12-3s6-5 10-5 6 3 10 5 8 0 12 3" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-      <path d="M28 14l4-4 4 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect x="30.5" y="12" width="3" height="20" rx="1.5" fill="#fff"/>
-      <path d="M22 32h20l-2-6h-6l-1-4h-2l-1 4h-6z" fill="#fff"/>
-    </svg>
-  </div>
-  <div class="auth-title">Maritime Live Feed</div>
-  <div class="auth-sub">Real decisions from real roles.<br>Join the global maritime community.</div>
-  <button class="auth-btn google" id="googleSignIn">
-    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-    Continue with Google
-  </button>
-  <div class="auth-footer">
-    <p style="font-size:12px;color:var(--text-muted);margin-top:24px;line-height:1.5">By continuing, you agree to our<br><a href="privacy.html" style="color:var(--accent);text-decoration:none">Privacy Policy</a></p>
+<div class="screen auth-screen" id="authScreen" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="#0a66c2"/><path d="M9 30c3-3 6-1.5 9-3s4.5-4.5 7.5-4.5 4.5 3 7.5 4.5 6 0 9 3" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 35c3-2 6-1 9-2s4.5-3.5 7.5-3.5 4.5 2 7.5 3.5 6 0 9 2" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/><rect x="22.5" y="9.5" width="3" height="14" rx="1.5" fill="#fff"/><path d="M17 24h14l-2-5h-4l-1-3h-2l-1 3h-4z" fill="#fff" opacity="0.9"/></svg>
+    </div>
+    <h1 class="auth-title">Maritime Live Feed</h1>
+    <p class="auth-sub">Share experiences. Learn from the fleet.</p>
+    <button class="btn-google" id="googleSignIn">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continue with Google
+    </button>
+    <p class="auth-terms">By continuing, you agree to our <a href="privacy.html">Privacy Policy</a></p>
   </div>
 </div>
 
 <!-- ROLE SELECT -->
-<div class="role-screen" id="roleScreen">
-  <div class="auth-logo">
-    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="64" height="64" rx="16" fill="#0a66c2"/>
-      <path d="M12 38c4-4 8-2 12-4s6-6 10-6 6 4 10 6 8 0 12 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-      <path d="M12 44c4-3 8-1 12-3s6-5 10-5 6 3 10 5 8 0 12 3" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-      <path d="M28 14l4-4 4 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect x="30.5" y="12" width="3" height="20" rx="1.5" fill="#fff"/>
-      <path d="M22 32h20l-2-6h-6l-1-4h-2l-1 4h-6z" fill="#fff"/>
-    </svg>
-  </div>
-  <div class="role-title">Select Your Role</div>
-  <div class="role-sub">This will be shown with your decisions.</div>
-  <div class="role-grid">
-    <button class="role-option" data-role="Mate"><div class="role-icon">⚓</div><div class="role-info"><div>Mate</div><div class="role-desc">Deck Officer / OOW</div></div></button>
-    <button class="role-option" data-role="Master"><div class="role-icon">🧭</div><div class="role-info"><div>Master</div><div class="role-desc">Captain / Ship Master</div></div></button>
-    <button class="role-option" data-role="Engineer"><div class="role-icon">⚙️</div><div class="role-info"><div>Engineer</div><div class="role-desc">Engine Department</div></div></button>
-  </div>
-  <div class="nickname-section">
-    <div class="form-label">Nickname (optional)</div>
-    <input class="form-input" id="nicknameInput" placeholder="e.g. OOW_Singapore" style="margin-bottom:12px">
-    <button class="submit-btn" id="saveProfile" disabled>Get Started</button>
+<div class="screen role-screen" id="roleScreen" style="display:none">
+  <div class="auth-card">
+    <h2 class="auth-title" style="font-size:22px">What's your role?</h2>
+    <p class="auth-sub">This appears on your posts.</p>
+    <div class="role-grid">
+      <button class="role-option" data-role="Mate"><span class="role-emoji">⚓</span><div><strong>Mate</strong><small>Deck Officer / OOW</small></div></button>
+      <button class="role-option" data-role="Master"><span class="role-emoji">🧭</span><div><strong>Master</strong><small>Captain</small></div></button>
+      <button class="role-option" data-role="Engineer"><span class="role-emoji">⚙️</span><div><strong>Engineer</strong><small>Engine Dept.</small></div></button>
+    </div>
+    <input class="input" id="nicknameInput" placeholder="Nickname (optional)">
+    <button class="btn-primary" id="saveProfile" disabled>Get Started</button>
   </div>
 </div>
 
 <!-- APP -->
-<div class="app-shell" id="appShell">
+<div id="appShell" style="display:none">
   <header class="header">
-    <div class="header-top">
+    <div class="header-inner">
       <div class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="34" height="34" rx="8" fill="#0a66c2"/>
-            <path d="M6 21c2-2 4-1 6-2s3-3 5-3 3 2 5 3 4 0 6 2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M6 24c2-1.5 4-.5 6-1.5s3-2.5 5-2.5 3 1.5 5 2.5 4 0 6 1.5" stroke="#fff" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
-            <path d="M14 8l3-3 3 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="15.5" y="6" width="2" height="11" rx="1" fill="#fff"/>
-            <path d="M11 17h12l-1-3h-4l-.5-2h-1l-.5 2h-4z" fill="#fff"/>
-          </svg>
-        </div>
-        <div class="logo-text">Maritime <span>Live Feed</span></div>
+        <svg viewBox="0 0 28 28" fill="none" width="28" height="28"><rect width="28" height="28" rx="7" fill="#0a66c2"/><path d="M5 19c2-2 4-1 6-2s3-3 5-3 3 2 5 3 4 0 6 2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><rect x="12.5" y="5" width="2" height="9" rx="1" fill="#fff"/><path d="M10 14h8l-1-3h-2.5l-.5-2h-1l-.5 2H10z" fill="#fff" opacity="0.9"/></svg>
+        <span class="logo-text">Maritime <b>Live Feed</b></span>
       </div>
       <div style="position:relative">
-        <div class="user-avatar" id="avatarBtn"></div>
-        <div class="profile-dropdown" id="profileDropdown">
-          <div class="profile-info">
-            <div class="profile-name" id="profileName"></div>
-            <div class="profile-role" id="profileRole"></div>
-            <div class="profile-email" id="profileEmail"></div>
+        <div class="avatar" id="avatarBtn"></div>
+        <div class="dropdown" id="profileDropdown">
+          <div class="dropdown-info">
+            <div class="dropdown-name" id="profileName"></div>
+            <div class="dropdown-meta" id="profileRole"></div>
+            <div class="dropdown-meta" id="profileEmail"></div>
           </div>
-          <button class="profile-action danger" id="signOutBtn">Sign Out</button>
+          <button class="dropdown-signout" id="signOutBtn">Sign Out</button>
         </div>
       </div>
     </div>
-    <div class="summary-bar"><div class="pulse"></div><span id="summaryText">Loading...</span></div>
   </header>
 
-  <div class="filter-section">
-    <div class="filter-label">Role</div>
-    <div class="filter-row" id="roleFilter">
-      <button class="filter-chip active" data-role="all">All</button>
-      <button class="filter-chip" data-role="mate">Mate</button>
-      <button class="filter-chip" data-role="master">Master</button>
-      <button class="filter-chip" data-role="engineer">Engineer</button>
+  <div class="main-wrap">
+    <!-- COMPOSER -->
+    <div class="card composer-card">
+      <div class="composer-top">
+        <div class="avatar-sm" id="composerAvatar"></div>
+        <button class="composer-trigger" id="composerTrigger">What's happening at sea?</button>
+      </div>
+      <div class="composer-actions">
+        <button class="composer-action green" id="composerPhotoBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> Photo</button>
+        <button class="composer-action blue" id="composerVideoBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="23 7 16 12 23 17"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> Video</button>
+        <button class="composer-action orange" id="composerLocBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Location</button>
+      </div>
     </div>
-    <div class="filter-label" style="margin-top:4px">Type</div>
-    <div class="filter-row" id="typeFilter">
-      <button class="filter-chip active" data-type="all">All</button>
-      <button class="filter-chip" data-type="near-miss">Near Miss</button>
-      <button class="filter-chip" data-type="traffic">Traffic</button>
-      <button class="filter-chip" data-type="weather">Weather</button>
-      <button class="filter-chip" data-type="equipment">Equipment</button>
-      <button class="filter-chip" data-type="navigation">Navigation</button>
-      <button class="filter-chip" data-type="other">Other</button>
+
+    <!-- FILTER -->
+    <div class="filter-bar" id="filterBar">
+      <button class="tag active" data-tag="all"># All</button>
+      <button class="tag" data-tag="near-miss"># near-miss</button>
+      <button class="tag" data-tag="traffic"># traffic</button>
+      <button class="tag" data-tag="weather"># weather</button>
+      <button class="tag" data-tag="equipment"># equipment</button>
+      <button class="tag" data-tag="navigation"># navigation</button>
+      <button class="tag" data-tag="other"># other</button>
     </div>
+
+    <!-- FEED -->
+    <div id="feed"></div>
   </div>
 
-  <main class="feed" id="feed"></main>
-
-  <button class="fab" id="createBtn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Create Event
-  </button>
-
   <nav class="bottom-nav">
-    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg>Feed</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>AI Mate</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</div>
+    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span>Feed</span></div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Search</span></div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M12 20V10M18 20V4M6 20v-4"/></svg><span>Insights</span></div>
+    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></div>
   </nav>
 </div>
 
-<!-- CREATE EVENT MODAL -->
-<div class="modal-overlay" id="createModal">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-header"><div class="modal-title">Create Event</div><button class="modal-close" id="closeModal">✕</button></div>
+<!-- COMPOSE MODAL -->
+<div class="modal-bg" id="composeModal">
+  <div class="modal-card">
+    <div class="modal-top">
+      <button class="modal-x" id="composeClose">✕</button>
+      <span class="modal-heading">Create Post</span>
+      <button class="btn-post" id="postBtn" disabled>Post</button>
+    </div>
     <div class="modal-body">
-      <div class="form-label">Event Type <span class="required">*</span></div>
-      <div class="type-grid" id="typeGrid">
-        <button class="type-option" data-type="near-miss"><span class="type-dot" style="background:var(--near-miss)"></span>Near Miss</button>
-        <button class="type-option" data-type="traffic"><span class="type-dot" style="background:var(--traffic)"></span>Traffic</button>
-        <button class="type-option" data-type="weather"><span class="type-dot" style="background:var(--weather)"></span>Weather</button>
-        <button class="type-option" data-type="equipment"><span class="type-dot" style="background:var(--equipment)"></span>Equipment</button>
-        <button class="type-option" data-type="navigation"><span class="type-dot" style="background:var(--navigation)"></span>Navigation</button>
-        <button class="type-option" data-type="other"><span class="type-dot" style="background:var(--other)"></span>Other</button>
+      <div class="compose-user">
+        <div class="avatar-sm" id="modalAvatar"></div>
+        <div><div class="compose-name" id="modalName"></div><div class="compose-role" id="modalRole"></div></div>
       </div>
-      <div class="form-label">Title <span class="required">*</span></div>
-      <input class="form-input" id="eventTitle" placeholder="e.g. Close quarter situation in Singapore Strait" maxlength="120">
-      <div class="form-label">Description</div>
-      <textarea class="form-input" id="eventDesc" placeholder="What happened? Add context..."></textarea>
-      <div class="form-label">Location</div>
-      <input class="form-input" id="eventLoc" placeholder="e.g. Singapore Strait, Malacca">
-      <div class="form-label">Image (optional)</div>
-      <input type="file" id="eventImage" accept="image/*" class="form-input">
-      <button class="submit-btn" id="submitEvent" disabled>Create Event</button>
+      <textarea class="compose-text" id="postText" placeholder="What's happening at sea?"></textarea>
+      <div id="mediaPreview" class="media-preview" style="display:none">
+        <button class="media-x" id="mediaRemove">✕</button>
+        <img id="mediaPreviewImg" style="display:none">
+        <video id="mediaPreviewVid" style="display:none" controls></video>
+      </div>
+      <div id="composeLocation" class="compose-loc" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e16b16" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <input class="loc-input" id="locationInput" placeholder="e.g. Singapore Strait">
+        <button class="loc-x" id="locationRemove">✕</button>
+      </div>
+      <div class="compose-tags" id="composeTags">
+        <button class="ctag" data-tag="near-miss">#near-miss</button>
+        <button class="ctag" data-tag="traffic">#traffic</button>
+        <button class="ctag" data-tag="weather">#weather</button>
+        <button class="ctag" data-tag="equipment">#equipment</button>
+        <button class="ctag" data-tag="navigation">#navigation</button>
+        <button class="ctag" data-tag="other">#other</button>
+      </div>
+    </div>
+    <div class="compose-bottom">
+      <label class="compose-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><input type="file" id="mediaInput" accept="image/*,video/*" style="display:none"></label>
+      <button class="compose-icon orange" id="addLocationBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></button>
     </div>
   </div>
 </div>
 
-<!-- EVENT DETAIL -->
+<!-- POST DETAIL -->
 <div class="detail-overlay" id="detailView">
   <div class="detail-header">
-    <button class="back-btn" id="backBtn">←</button>
-    <div class="detail-title-area">
-      <div class="detail-type-badge" id="detailType"></div>
-      <div class="detail-title" id="detailTitle"></div>
-    </div>
+    <button class="detail-back" id="backBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <span>Post</span>
   </div>
-  <div class="detail-body" id="detailBody"></div>
-  <div class="image-viewer" id="imageViewer">
-    <img id="viewerImage">
-  </div>
+  <div class="detail-content" id="detailBody"></div>
   <div class="detail-input-area">
     <div class="detail-input-row">
-      <input type="text" id="insightInput" placeholder="Share your decision...">
-      <button class="detail-send-btn" id="sendInsight">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
+      <input type="text" id="commentInput" placeholder="Write a comment...">
+      <button class="detail-send" id="sendComment"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
     </div>
   </div>
 </div>
+
+<!-- IMAGE VIEWER -->
+<div class="image-viewer" id="imageViewer"><img id="viewerImage"></div>
 
 <script type="module" src="app.js"></script>
 </body>
