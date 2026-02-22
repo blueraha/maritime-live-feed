@@ -2,171 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="description" content="Maritime Live Feed — Real-time maritime community">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<title>Maritime Live Feed</title>
+<title>Current - Maritime Live Feed</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- LOADING -->
 <div class="screen loading-screen" id="loadingScreen"><div class="spinner"></div></div>
 
-<!-- AUTH -->
 <div class="screen auth-screen" id="authScreen" style="display:none">
   <div class="auth-card">
     <div class="auth-logo">
-      <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="12" fill="#0a66c2"/><path d="M9 30c3-3 6-1.5 9-3s4.5-4.5 7.5-4.5 4.5 3 7.5 4.5 6 0 9 3" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9 35c3-2 6-1 9-2s4.5-3.5 7.5-3.5 4.5 2 7.5 3.5 6 0 9 2" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/><rect x="22.5" y="9.5" width="3" height="14" rx="1.5" fill="#fff"/><path d="M17 24h14l-2-5h-4l-1-3h-2l-1 3h-4z" fill="#fff" opacity="0.9"/></svg>
+      <svg viewBox="0 0 28 28" fill="none" width="56" height="56"><rect width="28" height="28" rx="7" fill="#0a66c2"/><path d="M7 14C9 12 11 12 13 14C15 16 17 16 19 14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
     </div>
-    <h1 class="auth-title">Maritime Live Feed</h1>
-    <p class="auth-sub">Share experiences. Learn from the fleet.</p>
+    <h1 class="auth-title">CURRENT</h1>
+    <p class="auth-sub">Flowing stories at sea.</p>
     <button class="btn-google" id="googleSignIn">
       <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       Continue with Google
     </button>
-    <p class="auth-terms">By continuing, you agree to our <a href="privacy.html">Privacy Policy</a></p>
   </div>
 </div>
 
-<!-- ROLE SELECT -->
 <div class="screen role-screen" id="roleScreen" style="display:none">
   <div class="auth-card">
-    <h2 class="auth-title" style="font-size:22px">What's your role?</h2>
-    <p class="auth-sub">This appears on your posts.</p>
+    <h2 class="auth-title" style="font-size:22px">Select your rank</h2>
     <div class="role-grid">
-      <button class="role-option" data-role="Mate"><span class="role-emoji">⚓</span><div><strong>Mate</strong><small>Deck Officer / OOW</small></div></button>
-      <button class="role-option" data-role="Master"><span class="role-emoji">🧭</span><div><strong>Master</strong><small>Captain</small></div></button>
-      <button class="role-option" data-role="Engineer"><span class="role-emoji">⚙️</span><div><strong>Engineer</strong><small>Engine Dept.</small></div></button>
+      <button class="role-option selected" data-role="Mate">Mate</button>
+      <button class="role-option dev-feature" data-role="Master">Master</button>
+      <button class="role-option dev-feature" data-role="Engineer">Engineer</button>
     </div>
-    <input class="input" id="nicknameInput" placeholder="Nickname (optional)">
-    <button class="btn-primary" id="saveProfile" disabled>Get Started</button>
+    <input class="input" id="nicknameInput" placeholder="Enter Nickname">
+    <button class="btn-primary" id="saveProfile">Get Started</button>
   </div>
 </div>
 
-<!-- APP -->
 <div id="appShell" style="display:none">
   <header class="header">
     <div class="header-inner">
       <div class="logo">
-        <svg viewBox="0 0 28 28" fill="none" width="28" height="28"><rect width="28" height="28" rx="7" fill="#0a66c2"/><path d="M5 19c2-2 4-1 6-2s3-3 5-3 3 2 5 3 4 0 6 2" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><rect x="12.5" y="5" width="2" height="9" rx="1" fill="#fff"/><path d="M10 14h8l-1-3h-2.5l-.5-2h-1l-.5 2H10z" fill="#fff" opacity="0.9"/></svg>
-        <span class="logo-text">Maritime <b>Live Feed</b></span>
+        <svg viewBox="0 0 28 28" fill="none" width="24" height="24"><rect width="28" height="28" rx="7" fill="#0a66c2"/><path d="M7 14C9 12 11 12 13 14C15 16 17 16 19 14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="logo-text">CURRENT</span>
       </div>
-      <div style="position:relative">
-        <div class="avatar" id="avatarBtn"></div>
-        <div class="dropdown" id="profileDropdown">
-          <div class="dropdown-info">
-            <div class="dropdown-name" id="profileName"></div>
-            <div class="dropdown-meta" id="profileRole"></div>
-            <div class="dropdown-meta" id="profileEmail"></div>
-          </div>
-          <button class="dropdown-signout" id="signOutBtn">Sign Out</button>
-        </div>
+      <div class="header-right">
+        <svg class="dev-feature" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="cursor:pointer"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="avatar-sm" id="avatarBtn"></div>
       </div>
     </div>
   </header>
 
   <div class="main-wrap">
-    <!-- COMPOSER -->
-    <div class="card composer-card">
-      <div class="composer-top">
-        <div class="avatar-sm" id="composerAvatar"></div>
-        <button class="composer-trigger" id="composerTrigger">What's happening at sea?</button>
-      </div>
-      <div class="composer-actions">
-        <button class="composer-action green" id="composerPhotoBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> Photo</button>
-        <button class="composer-action blue" id="composerVideoBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="23 7 16 12 23 17"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg> Video</button>
-        <button class="composer-action orange" id="composerLocBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Location</button>
-      </div>
-    </div>
+    <div id="feed" class="feed-container"></div>
+  </div>
 
-    <!-- FILTER -->
-    <div class="filter-bar" id="filterBar">
-      <button class="tag active" data-tag="all"># All</button>
-      <button class="tag" data-tag="near-miss"># near-miss</button>
-      <button class="tag" data-tag="traffic"># traffic</button>
-      <button class="tag" data-tag="weather"># weather</button>
-      <button class="tag" data-tag="equipment"># equipment</button>
-      <button class="tag" data-tag="navigation"># navigation</button>
-      <button class="tag" data-tag="other"># other</button>
+  <div class="chat-input-area">
+    <div class="chat-input-wrapper">
+      <button class="action-plus-btn dev-feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <input type="text" id="quickInput" placeholder="Write your log..." autocomplete="off">
+      <button class="send-btn" id="quickPostBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
     </div>
-
-    <!-- FEED -->
-    <div id="feed"></div>
   </div>
 
   <nav class="bottom-nav">
-    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span>Feed</span></div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Search</span></div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M12 20V10M18 20V4M6 20v-4"/></svg><span>Insights</span></div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></div>
+    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>
+    <div class="nav-item dev-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+    <div class="nav-item dev-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+    <div class="nav-item dev-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
   </nav>
 </div>
 
-<!-- COMPOSE MODAL -->
-<div class="modal-bg" id="composeModal">
-  <div class="modal-card">
-    <div class="modal-top">
-      <button class="modal-x" id="composeClose">✕</button>
-      <span class="modal-heading">Create Post</span>
-      <button class="btn-post" id="postBtn" disabled>Post</button>
-    </div>
-    <div class="modal-body">
-      <div class="compose-user">
-        <div class="avatar-sm" id="modalAvatar"></div>
-        <div><div class="compose-name" id="modalName"></div><div class="compose-role" id="modalRole"></div></div>
-      </div>
-      <textarea class="compose-text" id="postText" placeholder="What's happening at sea?"></textarea>
-      <div id="mediaPreview" class="media-preview" style="display:none">
-        <button class="media-x" id="mediaRemove">✕</button>
-        <img id="mediaPreviewImg" style="display:none">
-        <video id="mediaPreviewVid" style="display:none" controls></video>
-      </div>
-      <div id="composeLocation" class="compose-loc" style="display:none">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#e16b16" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <input class="loc-input" id="locationInput" placeholder="e.g. Singapore Strait">
-        <button class="loc-x" id="locationRemove">✕</button>
-      </div>
-      <div class="compose-tags" id="composeTags">
-        <button class="ctag" data-tag="near-miss">#near-miss</button>
-        <button class="ctag" data-tag="traffic">#traffic</button>
-        <button class="ctag" data-tag="weather">#weather</button>
-        <button class="ctag" data-tag="equipment">#equipment</button>
-        <button class="ctag" data-tag="navigation">#navigation</button>
-        <button class="ctag" data-tag="other">#other</button>
-      </div>
-    </div>
-    <div class="compose-bottom">
-      <label class="compose-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><input type="file" id="mediaInput" accept="image/*,video/*" style="display:none"></label>
-      <button class="compose-icon orange" id="addLocationBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></button>
-    </div>
-  </div>
+<div id="profileDropdown" style="display:none; position:fixed; top:60px; right:16px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:200;">
+  <button id="signOutBtn" style="color:red; background:none; border:none; font-size:14px; cursor:pointer;">Sign Out</button>
 </div>
-
-<!-- POST DETAIL -->
-<div class="detail-overlay" id="detailView">
-  <div class="detail-header">
-    <button class="detail-back" id="backBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
-    <span>Post</span>
-  </div>
-  <div class="detail-content" id="detailBody"></div>
-  <div class="detail-input-area">
-    <div class="detail-input-row">
-      <input type="text" id="commentInput" placeholder="Write a comment...">
-      <button class="detail-send" id="sendComment"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-    </div>
-  </div>
-</div>
-
-<!-- IMAGE VIEWER -->
-<div class="image-viewer" id="imageViewer"><img id="viewerImage"></div>
 
 <script type="module" src="app.js"></script>
 </body>
